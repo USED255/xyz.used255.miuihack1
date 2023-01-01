@@ -3,16 +3,6 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	package="xyz.used255.miuihack1">
 
-
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
-	<uses-permission android:name="android.permission.READ_LOGS" />
-	<uses-permission android:name="android.permission.DUMP" />
-
-	<uses-permission android:name="miui.permission.READ_LOGS" />
-	<uses-permission android:name="miui.permission.DUMP_CACHED_LOG" />
-
 	<application
 		android:allowBackup="false"
 		android:hardwareAccelerated="true"
