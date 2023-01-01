@@ -1,16 +1,27 @@
 <resources>
-	<string-array name="xposed_scopes" >
-		<item>com.android.contacts</item>
-		<item>com.miui.weather2</item>
-		<item>com.android.mms</item>
-		<item>com.android.calendar</item>
-		<item>com.android.deskclock</item>
-		<item>com.miui.yellowpage</item>
-		<item>com.miui.securitycenter</item>
-		<item>com.android.thememanager</item>
-		<item>com.miui.personalassistant</item>
-		<item>com.miui.contentextension</item>
-		<item>com.android.incallui</item>
-		<item>com.android.settings</item>
+	<string-array name="xposed_scopes">
+		<item>"com.android.calendar"</item>
+		<item>"com.android.contacts"</item>
+		<item>"com.android.deskclock"</item>
+		<item>"com.android.incallui"</item>
+		<item>"com.android.mms"</item>
+		<item>"com.android.thememanager"</item>
+		<item>"com.miui.analytics"</item>
+		<item>"com.miui.cleanmaster"</item>
+		<item>"com.miui.hybrid"</item>
+		<item>"com.miui.miwallpaper.earth"</item>
+		<item>"com.miui.miwallpaper.geometry"</item>
+		<item>"com.miui.miwallpaper.mars"</item>
+		<item>"com.miui.miwallpaper.saturn"</item>
+		<item>"com.miui.miwallpaper.snowmountain"</item>
+		<item>"com.miui.personalassistant"</item>
+		<item>"com.miui.securitycenter"</item>
+		<item>"com.miui.virtualsim"</item>
+		<item>"com.miui.voiceassist"</item>
+		<item>"com.miui.weather2"</item>
+		<item>"com.miui.yellowpage"</item>
+		<item>"com.xiaomi.aiasst.service"</item>
+		<item>"com.xiaomi.aiasst.vision"</item>
+		<item>"com.xiaomi.market"</item>
 	</string-array>
 </resources>
