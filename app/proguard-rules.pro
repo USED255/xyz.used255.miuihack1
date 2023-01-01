@@ -51,7 +51,7 @@
     java.lang.Object readResolve();
 }
 
--keep class name.monwf.** { *; }
+-keep class xyz.used255.** { *; }
 
 -dontwarn **
 -dontnote **

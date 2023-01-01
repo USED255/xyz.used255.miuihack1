@@ -1,4 +1,4 @@
-package name.monwf.miuil10n.utils;
+package xyz.used255.miuihack1.utils;
 
 
 import android.annotation.SuppressLint;
@@ -31,7 +31,7 @@ public class Helpers {
 
 	@SuppressLint("StaticFieldLeak")
 	public static Context mModuleContext = null;
-	public static final String modulePkg = "name.monwf.miuil10n";
+	public static final String modulePkg = "xyz.used255.miuihack1";
 	public static SharedPreferences prefs = null;
 
 	public static synchronized Context getLocaleContext(Context context) throws Throwable {

@@ -1,4 +1,4 @@
-package name.monwf.miuil10n;
+package xyz.used255.miuihack1;
 
 import static de.robv.android.xposed.XposedHelpers.findClass;
 
@@ -9,9 +9,9 @@ import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-import name.monwf.miuil10n.utils.Helpers;
-import name.monwf.miuil10n.utils.Helpers.MethodHook;
-import name.monwf.miuil10n.utils.ResourceHooks;
+import xyz.used255.miuihack1.utils.Helpers;
+import xyz.used255.miuihack1.utils.Helpers.MethodHook;
+import xyz.used255.miuihack1.utils.ResourceHooks;
 
 
 public class MainModule implements IXposedHookZygoteInit, IXposedHookLoadPackage {
