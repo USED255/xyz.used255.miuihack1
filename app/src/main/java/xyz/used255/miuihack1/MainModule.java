@@ -1,7 +1,5 @@
 package xyz.used255.miuihack1;
 
-import static de.robv.android.xposed.XposedHelpers.findClass;
-
 import android.content.Context;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -12,6 +10,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import xyz.used255.miuihack1.utils.Helpers;
 import xyz.used255.miuihack1.utils.Helpers.MethodHook;
 import xyz.used255.miuihack1.utils.ResourceHooks;
+
+import static de.robv.android.xposed.XposedHelpers.findClass;
 
 
 public class MainModule implements IXposedHookZygoteInit, IXposedHookLoadPackage {
@@ -58,20 +58,12 @@ public class MainModule implements IXposedHookZygoteInit, IXposedHookLoadPackage
         if (pkg.equals("com.android.calendar")) {
             resHooks.setObjectReplacement(pkg, "bool", "is_greater_china", true);
             resHooks.setObjectReplacement(pkg, "bool", "is_mainland_china", true);
-        }
-        else if (pkg.equals("com.android.thememanager")) {
-//            Context mContext = (Context)XposedHelpers.getObjectField(param.thisObject, "mContext");
-//            Settings.Global.putString(mContext.getContentResolver(), "passport_ad_status", "OFF");
+        } else if (pkg.equals("com.android.thememanager")) {
             Helpers.findAndHookMethodSilently("com.android.thememanager.basemodule.ad.model.AdInfoResponse", lpparam.classLoader, "getAdInfo", boolean.class, XC_MethodReplacement.returnConstant(null));
             Helpers.findAndHookMethodSilently("com.android.thememanager.basemodule.ad.model.AdInfoResponse", lpparam.classLoader, "checkAndGetAdInfo", String.class, boolean.class, XC_MethodReplacement.returnConstant(null));
-        }
-        else if (pkg.equals("com.android.mms")) {
+        } else if (pkg.equals("com.android.mms")) {
             Helpers.findAndHookMethod("miui.provider.ExtraTelephony", lpparam.classLoader, "getSmsURLScanResult",
                     Context.class, String.class, String.class, XC_MethodReplacement.returnConstant(0));
         }
-//        else if (pkg.equals("android")) {
-//            Helpers.findAndHookMethod("com.android.server.notification.NotificationManagerServiceImpl", lpparam.classLoader, "isDeniedLocalNotification",
-//                    AppOpsManager.class, Notification.class, int.class, String.class, XC_MethodReplacement.returnConstant(false));
-//        }
     }
 }
