@@ -14,7 +14,6 @@ import xyz.used255.miuihack1.utils.Helpers.MethodHook;
 public class ResourceHooks {
     private final SparseIntArray fakes = new SparseIntArray();
     private final ConcurrentHashMap<String, Pair<ReplacementType, Object>> replacements = new ConcurrentHashMap<String, Pair<ReplacementType, Object>>();
-    @SuppressWarnings("FieldCanBeLocal")
     private final MethodHook mReplaceHook = new MethodHook() {
         @Override
         protected void before(MethodHookParam param) {
@@ -39,10 +38,6 @@ public class ResourceHooks {
     public ResourceHooks() {
     }
 
-    private static int getFakeResId(String resourceName) {
-        return 0x7e000000 | (resourceName.hashCode() & 0x00ffffff);
-    }
-
     private void applyHooks() {
         if (hooksApplied)
             return;
@@ -61,18 +56,6 @@ public class ResourceHooks {
         Helpers.findAndHookMethod(Resources.class, "getStringArray", int.class, mReplaceHook);
         Helpers.findAndHookMethod(Resources.class, "getTextArray", int.class, mReplaceHook);
         Helpers.findAndHookMethod(Resources.class, "getAnimation", int.class, mReplaceHook);
-    }
-
-    public int addResource(String resName, int resId) {
-        try {
-            applyHooks();
-            int fakeResId = getFakeResId(resName);
-            fakes.put(fakeResId, resId);
-            return fakeResId;
-        } catch (Throwable t) {
-            XposedBridge.log(t);
-            return 0;
-        }
     }
 
     private Object getFakeResource(Context context, String method, Object[] args) {

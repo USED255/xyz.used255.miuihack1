@@ -3,12 +3,8 @@ package xyz.used255.miuihack1.utils;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-
-import java.lang.reflect.Method;
-import java.util.Locale;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -20,20 +16,6 @@ public class Helpers {
     public static final String modulePkg = "xyz.used255.miuihack1";
     @SuppressLint("StaticFieldLeak")
     public static Context mModuleContext = null;
-    public static SharedPreferences prefs = null;
-
-    public static synchronized Context getLocaleContext(Context context) throws Throwable {
-        if (prefs != null) {
-            String locale = prefs.getString("pref_key_miuizer_locale", "auto");
-            if (locale == null || "auto".equals(locale) || "1".equals(locale))
-                return context;
-            Configuration config = context.getResources().getConfiguration();
-            config.setLocale(Locale.forLanguageTag(locale));
-            return context.createConfigurationContext(config);
-        } else {
-            return context;
-        }
-    }
 
     public static synchronized Context getModuleContext(Context context) throws Throwable {
         return getModuleContext(context, null);
@@ -44,16 +26,6 @@ public class Helpers {
             mModuleContext = context.createPackageContext(modulePkg, Context.CONTEXT_IGNORE_SECURITY)
                     .createDeviceProtectedStorageContext();
         return config == null ? mModuleContext : mModuleContext.createConfigurationContext(config);
-    }
-
-    public static synchronized Context getProtectedContext(Context context, Configuration config) {
-        try {
-            Context mContext = context.isDeviceProtectedStorage() ? context
-                    : context.createDeviceProtectedStorageContext();
-            return getLocaleContext(config == null ? mContext : mContext.createConfigurationContext(config));
-        } catch (Throwable t) {
-            return context;
-        }
     }
 
     public static synchronized Resources getModuleRes(Context context) throws Throwable {
@@ -108,7 +80,7 @@ public class Helpers {
         protected void before(MethodHookParam param) throws Throwable {
         }
 
-        protected void after(MethodHookParam param) throws Throwable {
+        protected void after() throws Throwable {
         }
 
         @Override
@@ -123,7 +95,7 @@ public class Helpers {
         @Override
         public final void afterHookedMethod(MethodHookParam param) throws Throwable {
             try {
-                this.after(param);
+                this.after();
             } catch (Throwable t) {
                 XposedBridge.log(t);
             }
