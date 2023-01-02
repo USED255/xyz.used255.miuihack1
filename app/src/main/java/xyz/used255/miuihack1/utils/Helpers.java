@@ -44,7 +44,7 @@ public class Helpers {
     }
 
     public static void log(String mod, String line) {
-        XposedBridge.log("[CustoMIUIzer][" + mod + "] " + line);
+        XposedBridge.log("[MIUIHACK1][" + mod + "] " + line);
     }
 
     public static void findAndHookMethod(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
