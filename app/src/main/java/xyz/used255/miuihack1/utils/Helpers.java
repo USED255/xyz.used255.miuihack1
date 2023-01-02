@@ -46,10 +46,6 @@ public class Helpers {
         return config == null ? mModuleContext : mModuleContext.createConfigurationContext(config);
     }
 
-    public static synchronized Context getProtectedContext(Context context) {
-        return getProtectedContext(context, null);
-    }
-
     public static synchronized Context getProtectedContext(Context context, Configuration config) {
         try {
             Context mContext = context.isDeviceProtectedStorage() ? context
@@ -75,29 +71,8 @@ public class Helpers {
         return stackTrace[4].getMethodName();
     }
 
-    public static void log(String line) {
-        XposedBridge.log("[CustoMIUIzer] " + line);
-    }
-
     public static void log(String mod, String line) {
         XposedBridge.log("[CustoMIUIzer][" + mod + "] " + line);
-    }
-
-    public static void hookMethod(Method method, MethodHook callback) {
-        try {
-            XposedBridge.hookMethod(method, callback);
-        } catch (Throwable t) {
-            log(getCallerMethod(), "Failed to hook " + method.getName() + " method");
-        }
-    }
-
-    public static void findAndHookMethod(String className, ClassLoader classLoader, String methodName,
-            Object... parameterTypesAndCallback) {
-        try {
-            XposedHelpers.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
-        } catch (Throwable t) {
-            log(getCallerMethod(), "Failed to hook " + methodName + " method in " + className);
-        }
     }
 
     public static void findAndHookMethod(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
@@ -105,86 +80,6 @@ public class Helpers {
             XposedHelpers.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
         } catch (Throwable t) {
             log(getCallerMethod(), "Failed to hook " + methodName + " method in " + clazz.getCanonicalName());
-        }
-    }
-
-    @SuppressWarnings("UnusedReturnValue")
-    public static boolean findAndHookMethodSilently(String className, ClassLoader classLoader, String methodName,
-            Object... parameterTypesAndCallback) {
-        try {
-            XposedHelpers.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
-            return true;
-        } catch (Throwable t) {
-            return false;
-        }
-    }
-
-    @SuppressWarnings("UnusedReturnValue")
-    public static boolean findAndHookMethodSilently(Class<?> clazz, String methodName,
-            Object... parameterTypesAndCallback) {
-        try {
-            XposedHelpers.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
-            return true;
-        } catch (Throwable t) {
-            return false;
-        }
-    }
-
-    public static void findAndHookConstructor(String className, ClassLoader classLoader,
-            Object... parameterTypesAndCallback) {
-        try {
-            XposedHelpers.findAndHookConstructor(className, classLoader, parameterTypesAndCallback);
-        } catch (Throwable t) {
-            log(getCallerMethod(), "Failed to hook constructor in " + className);
-        }
-    }
-
-    public static void hookAllConstructors(String className, ClassLoader classLoader, MethodHook callback) {
-        try {
-            Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
-            if (hookClass == null || XposedBridge.hookAllConstructors(hookClass, callback).size() == 0)
-                log(getCallerMethod(), "Failed to hook " + className + " constructor");
-        } catch (Throwable t) {
-            XposedBridge.log(t);
-        }
-    }
-
-    public static void hookAllConstructors(Class<?> hookClass, MethodHook callback) {
-        try {
-            if (XposedBridge.hookAllConstructors(hookClass, callback).size() == 0)
-                log(getCallerMethod(), "Failed to hook " + hookClass.getCanonicalName() + " constructor");
-        } catch (Throwable t) {
-            XposedBridge.log(t);
-        }
-    }
-
-    public static void hookAllMethods(String className, ClassLoader classLoader, String methodName,
-            XC_MethodHook callback) {
-        try {
-            Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
-            if (hookClass == null || XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0)
-                log(getCallerMethod(), "Failed to hook " + methodName + " method in " + className);
-        } catch (Throwable t) {
-            XposedBridge.log(t);
-        }
-    }
-
-    public static void hookAllMethods(Class<?> hookClass, String methodName, XC_MethodHook callback) {
-        try {
-            if (XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0)
-                log(getCallerMethod(), "Failed to hook " + methodName + " method in " + hookClass.getCanonicalName());
-        } catch (Throwable t) {
-            XposedBridge.log(t);
-        }
-    }
-
-    public static boolean hookAllMethodsSilently(String className, ClassLoader classLoader, String methodName,
-            XC_MethodHook callback) {
-        try {
-            Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
-            return hookClass != null && XposedBridge.hookAllMethods(hookClass, methodName, callback).size() > 0;
-        } catch (Throwable t) {
-            return false;
         }
     }
 
