@@ -19,14 +19,17 @@ public class ResourceHooks {
         @Override
         protected void before(MethodHookParam param) {
             Context mContext = Helpers.findContext();
-            if (mContext == null) return;
+            if (mContext == null)
+                return;
             String method = param.method.getName();
             Object value = getFakeResource(mContext, method, param.args);
             if (value == null) {
                 value = getResourceReplacement(mContext, (Resources) param.thisObject, method, param.args);
-                if (value == null) return;
+                if (value == null)
+                    return;
                 if ("getDimensionPixelOffset".equals(method) || "getDimensionPixelSize".equals(method))
-                    if (value instanceof Float) value = ((Float) value).intValue();
+                    if (value instanceof Float)
+                        value = ((Float) value).intValue();
             }
             param.setResult(value);
         }
@@ -41,7 +44,8 @@ public class ResourceHooks {
     }
 
     private void applyHooks() {
-        if (hooksApplied) return;
+        if (hooksApplied)
+            return;
         hooksApplied = true;
         Helpers.findAndHookMethod(Resources.class, "getInteger", int.class, mReplaceHook);
         Helpers.findAndHookMethod(Resources.class, "getFraction", int.class, int.class, int.class, mReplaceHook);
@@ -51,7 +55,8 @@ public class ResourceHooks {
         Helpers.findAndHookMethod(Resources.class, "getDimensionPixelSize", int.class, mReplaceHook);
         Helpers.findAndHookMethod(Resources.class, "getText", int.class, mReplaceHook);
 
-        Helpers.findAndHookMethod(Resources.class, "getDrawableForDensity", int.class, int.class, Resources.Theme.class, mReplaceHook);
+        Helpers.findAndHookMethod(Resources.class, "getDrawableForDensity", int.class, int.class, Resources.Theme.class,
+                mReplaceHook);
         Helpers.findAndHookMethod(Resources.class, "getIntArray", int.class, mReplaceHook);
         Helpers.findAndHookMethod(Resources.class, "getStringArray", int.class, mReplaceHook);
         Helpers.findAndHookMethod(Resources.class, "getTextArray", int.class, mReplaceHook);
@@ -72,9 +77,11 @@ public class ResourceHooks {
 
     private Object getFakeResource(Context context, String method, Object[] args) {
         try {
-            if (context == null) return null;
+            if (context == null)
+                return null;
             int modResId = fakes.get((int) args[0]);
-            if (modResId == 0) return null;
+            if (modResId == 0)
+                return null;
 
             Object value;
             Resources modRes = Helpers.getModuleRes(context);
@@ -119,7 +126,8 @@ public class ResourceHooks {
     }
 
     private Object getResourceReplacement(Context context, Resources res, String method, Object[] args) {
-        if (context == null) return null;
+        if (context == null)
+            return null;
 
         String pkgName = null;
         String resType = null;
@@ -130,7 +138,8 @@ public class ResourceHooks {
             resName = res.getResourceEntryName((int) args[0]);
         } catch (Throwable ignore) {
         }
-        if (pkgName == null || resType == null || resName == null) return null;
+        if (pkgName == null || resType == null || resName == null)
+            return null;
 
         try {
             Object value;
@@ -145,12 +154,14 @@ public class ResourceHooks {
                 replacement = replacements.get(resAnyPkgName);
 
             if (replacement != null)
-                if (replacement.first == ReplacementType.OBJECT) return replacement.second;
+                if (replacement.first == ReplacementType.OBJECT)
+                    return replacement.second;
                 else if (replacement.first == ReplacementType.DENSITY)
                     return (Integer) replacement.second * res.getDisplayMetrics().density;
                 else if (replacement.first == ReplacementType.ID)
                     modResId = (Integer) replacement.second;
-            if (modResId == null) return null;
+            if (modResId == null)
+                return null;
 
             Resources modRes = Helpers.getModuleRes(context);
             if ("getDrawable".equals(method))

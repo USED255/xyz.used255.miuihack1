@@ -1,6 +1,5 @@
 package xyz.used255.miuihack1.utils;
 
-
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
@@ -15,7 +14,6 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
-
 @SuppressWarnings("WeakerAccess")
 public class Helpers {
 
@@ -27,7 +25,8 @@ public class Helpers {
     public static synchronized Context getLocaleContext(Context context) throws Throwable {
         if (prefs != null) {
             String locale = prefs.getString("pref_key_miuizer_locale", "auto");
-            if (locale == null || "auto".equals(locale) || "1".equals(locale)) return context;
+            if (locale == null || "auto".equals(locale) || "1".equals(locale))
+                return context;
             Configuration config = context.getResources().getConfiguration();
             config.setLocale(Locale.forLanguageTag(locale));
             return context.createConfigurationContext(config);
@@ -42,7 +41,8 @@ public class Helpers {
 
     public static synchronized Context getModuleContext(Context context, Configuration config) throws Throwable {
         if (mModuleContext == null)
-            mModuleContext = context.createPackageContext(modulePkg, Context.CONTEXT_IGNORE_SECURITY).createDeviceProtectedStorageContext();
+            mModuleContext = context.createPackageContext(modulePkg, Context.CONTEXT_IGNORE_SECURITY)
+                    .createDeviceProtectedStorageContext();
         return config == null ? mModuleContext : mModuleContext.createConfigurationContext(config);
     }
 
@@ -52,7 +52,8 @@ public class Helpers {
 
     public static synchronized Context getProtectedContext(Context context, Configuration config) {
         try {
-            Context mContext = context.isDeviceProtectedStorage() ? context : context.createDeviceProtectedStorageContext();
+            Context mContext = context.isDeviceProtectedStorage() ? context
+                    : context.createDeviceProtectedStorageContext();
             return getLocaleContext(config == null ? mContext : mContext.createConfigurationContext(config));
         } catch (Throwable t) {
             return context;
@@ -62,7 +63,8 @@ public class Helpers {
     public static synchronized Resources getModuleRes(Context context) throws Throwable {
         Configuration config = context.getResources().getConfiguration();
         Context moduleContext = getModuleContext(context);
-        return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
+        return (config == null ? moduleContext.getResources()
+                : moduleContext.createConfigurationContext(config).getResources());
     }
 
     private static String getCallerMethod() {
@@ -89,7 +91,8 @@ public class Helpers {
         }
     }
 
-    public static void findAndHookMethod(String className, ClassLoader classLoader, String methodName, Object... parameterTypesAndCallback) {
+    public static void findAndHookMethod(String className, ClassLoader classLoader, String methodName,
+            Object... parameterTypesAndCallback) {
         try {
             XposedHelpers.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
         } catch (Throwable t) {
@@ -106,7 +109,8 @@ public class Helpers {
     }
 
     @SuppressWarnings("UnusedReturnValue")
-    public static boolean findAndHookMethodSilently(String className, ClassLoader classLoader, String methodName, Object... parameterTypesAndCallback) {
+    public static boolean findAndHookMethodSilently(String className, ClassLoader classLoader, String methodName,
+            Object... parameterTypesAndCallback) {
         try {
             XposedHelpers.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
             return true;
@@ -116,7 +120,8 @@ public class Helpers {
     }
 
     @SuppressWarnings("UnusedReturnValue")
-    public static boolean findAndHookMethodSilently(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
+    public static boolean findAndHookMethodSilently(Class<?> clazz, String methodName,
+            Object... parameterTypesAndCallback) {
         try {
             XposedHelpers.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
             return true;
@@ -125,7 +130,8 @@ public class Helpers {
         }
     }
 
-    public static void findAndHookConstructor(String className, ClassLoader classLoader, Object... parameterTypesAndCallback) {
+    public static void findAndHookConstructor(String className, ClassLoader classLoader,
+            Object... parameterTypesAndCallback) {
         try {
             XposedHelpers.findAndHookConstructor(className, classLoader, parameterTypesAndCallback);
         } catch (Throwable t) {
@@ -152,7 +158,8 @@ public class Helpers {
         }
     }
 
-    public static void hookAllMethods(String className, ClassLoader classLoader, String methodName, XC_MethodHook callback) {
+    public static void hookAllMethods(String className, ClassLoader classLoader, String methodName,
+            XC_MethodHook callback) {
         try {
             Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
             if (hookClass == null || XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0)
@@ -171,7 +178,8 @@ public class Helpers {
         }
     }
 
-    public static boolean hookAllMethodsSilently(String className, ClassLoader classLoader, String methodName, XC_MethodHook callback) {
+    public static boolean hookAllMethodsSilently(String className, ClassLoader classLoader, String methodName,
+            XC_MethodHook callback) {
         try {
             Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
             return hookClass != null && XposedBridge.hookAllMethods(hookClass, methodName, callback).size() > 0;
@@ -184,9 +192,11 @@ public class Helpers {
     public static Context findContext() {
         Context context = null;
         try {
-            context = (Application) XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentApplication");
+            context = (Application) XposedHelpers.callStaticMethod(
+                    XposedHelpers.findClass("android.app.ActivityThread", null), "currentApplication");
             if (context == null) {
-                Object currentActivityThread = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread");
+                Object currentActivityThread = XposedHelpers.callStaticMethod(
+                        XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread");
                 if (currentActivityThread != null)
                     context = (Context) XposedHelpers.callMethod(currentActivityThread, "getSystemContext");
             }
