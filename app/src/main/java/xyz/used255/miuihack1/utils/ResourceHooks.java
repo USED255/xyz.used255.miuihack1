@@ -81,24 +81,6 @@ public class ResourceHooks {
         }
     }
 
-    public void setResReplacement(String pkg, String type, String name, int replacementResId) {
-        try {
-            applyHooks();
-            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(ReplacementType.ID, replacementResId));
-        } catch (Throwable t) {
-            XposedBridge.log(t);
-        }
-    }
-
-    public void setDensityReplacement(String pkg, String type, String name, Integer replacementResValue) {
-        try {
-            applyHooks();
-            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(ReplacementType.DENSITY, replacementResValue));
-        } catch (Throwable t) {
-            XposedBridge.log(t);
-        }
-    }
-
     public void setObjectReplacement(String pkg, String type, String name, Object replacementResValue) {
         try {
             applyHooks();
