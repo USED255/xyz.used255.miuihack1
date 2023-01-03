@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - "v*"
+      - "v*.*.*"
 
 jobs:
   release:
@@ -28,7 +28,17 @@ jobs:
       - name: Build
         run: ./gradlew assembleRelease
 
+      - name: Sign
+        id: sign
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: app\release\app-release.apk
+          files: ${{steps.sign.outputs.signedReleaseFile}}
