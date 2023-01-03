@@ -38,7 +38,10 @@ jobs:
           keyStorePassword: ${{ secrets.KEYSTOREPASSWORD }}
           keyPassword: ${{ secrets.KEYPASSWORD }}
 
+      - name: Rename
+        run: mv ${{steps.sign.outputs.signedReleaseFile}} release.apk
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{steps.sign.outputs.signedReleaseFile}}
+          files: release.apk
