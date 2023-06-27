@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 32
+    namespace 'xyz.used255.miuihack1'
 
     defaultConfig {
         applicationId 'xyz.used255.miuihack1'
